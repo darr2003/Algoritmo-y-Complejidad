@@ -21,13 +21,11 @@ vector<int> BubbleSort(vector<int> &array_elementos) {
         
         for (int b = 0; b < n - 1 - a; b++) {
             if (array_elementos[b] > array_elementos[b + 1]) {
-                // Intercambiar los elementos
                 swap(array_elementos[b], array_elementos[b + 1]);
                 swapped = true;
             }
         }
         
-        // Si no hubo intercambios, el array ya está ordenado
         if (!swapped) break;
     }
     

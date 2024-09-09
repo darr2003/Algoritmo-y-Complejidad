@@ -1,6 +1,6 @@
 from random import shuffle
 
-size = 1000000
+size = 500000
 nums = list(range(1, size+1))
 shuffle(nums)
 

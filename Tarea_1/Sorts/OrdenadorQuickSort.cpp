@@ -15,7 +15,6 @@ using std::chrono::milliseconds;
 int medianOfThree(vector<int>& arr, int low, int high) {
     int mid = low + (high - low) / 2;
 
-    // Ordenar los tres elementos para obtener la mediana
     if (arr[low] > arr[mid])
         swap(arr[low], arr[mid]);
     if (arr[low] > arr[high])
@@ -23,7 +22,6 @@ int medianOfThree(vector<int>& arr, int low, int high) {
     if (arr[mid] > arr[high])
         swap(arr[mid], arr[high]);
 
-    // Colocar la mediana en la posición 'high' para usarla como pivote
     swap(arr[mid], arr[high]);
     return arr[high];
 }
