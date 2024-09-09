@@ -2,12 +2,60 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <chrono>
+#include <math.h>
 
 using namespace std;
+using matrix=vector<vector<int>>;
 
-vector<vector<int>> sumarMatrices(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::duration;
+using std::chrono::milliseconds;
+
+void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixName) {
+    outfile << matrixName << ":" << endl;
+    for (const auto& row : matrix) {
+        for (int num : row) {
+            outfile << num << " ";
+        }
+        outfile << endl;
+    }
+    outfile << endl;
+}
+
+int nextPowerOfTwo(int x) {
+    return pow(2, ceil(log2(x)));
+}
+
+matrix padMatrix(const matrix& mat) {
+    int n = mat.size();
+    int m = mat[0].size();
+    int newSize = nextPowerOfTwo(max(n, m));
+    matrix padded(newSize, vector<int>(newSize, 0));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < m; ++j) {
+            padded[i][j] = mat[i][j];
+        }
+    }
+    return padded;
+}
+
+matrix removePadding(const matrix& mat, int originalRows, int originalCols) {
+    matrix result(originalRows, vector<int>(originalCols));
+    for (int i = 0; i < originalRows; ++i) {
+        for (int j = 0; j < originalCols; ++j) {
+            result[i][j] = mat[i][j];
+        }
+    }
+    return result;
+}
+
+matrix sumarMatrices(const matrix& A, const matrix& B) {
     int n = A.size();
-    vector<vector<int>> C(n, vector<int>(n));
+    matrix C(n, vector<int>(n));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             C[i][j] = A[i][j] + B[i][j];
@@ -16,9 +64,9 @@ vector<vector<int>> sumarMatrices(const vector<vector<int>>& A, const vector<vec
     return C;
 }
 
-vector<vector<int>> restarMatrices(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+matrix restarMatrices(const matrix& A, const matrix& B) {
     int n = A.size();
-    vector<vector<int>> C(n, vector<int>(n));
+    matrix C(n, vector<int>(n));
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             C[i][j] = A[i][j] - B[i][j];
@@ -27,7 +75,7 @@ vector<vector<int>> restarMatrices(const vector<vector<int>>& A, const vector<ve
     return C;
 }
 
-void dividirMatriz(const vector<vector<int>>& A, vector<vector<int>>& A11, vector<vector<int>>& A12, vector<vector<int>>& A21, vector<vector<int>>& A22) {
+void dividirMatriz(const matrix& A, matrix& A11, matrix& A12, matrix& A21, matrix& A22) {
     int n = A.size();
     int m = n / 2;
     for (int i = 0; i < m; ++i) {
@@ -40,9 +88,9 @@ void dividirMatriz(const vector<vector<int>>& A, vector<vector<int>>& A11, vecto
     }
 }
 
-vector<vector<int>> combinarMatrices(const vector<vector<int>>& A11, const vector<vector<int>>& A12, const vector<vector<int>>& A21, const vector<vector<int>>& A22) {
+matrix combinarMatrices(const matrix& A11, const matrix& A12, const matrix& A21, const matrix& A22) {
     int n = A11.size() * 2;
-    vector<vector<int>> C(n, vector<int>(n));
+    matrix C(n, vector<int>(n));
     int m = A11.size();
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < m; ++j) {
@@ -55,14 +103,14 @@ vector<vector<int>> combinarMatrices(const vector<vector<int>>& A11, const vecto
     return C;
 }
 
-vector<vector<int>> strassen(const vector<vector<int>>& A, const vector<vector<int>>& B) {
+matrix strassen(const matrix& A, const matrix& B) {
     int n = A.size();
-    vector<vector<int>> C;
     if (n == 1) {
         return {{A[0][0] * B[0][0]}};
     }
+
     if (n == 2) {
-        vector<vector<int>> temp(2, vector<int>(2));
+        matrix temp(2, vector<int>(2));
         temp[0][0] = A[0][0] * B[0][0] + A[0][1] * B[1][0];
         temp[0][1] = A[0][0] * B[0][1] + A[0][1] * B[1][1];
         temp[1][0] = A[1][0] * B[0][0] + A[1][1] * B[1][0];
@@ -70,122 +118,92 @@ vector<vector<int>> strassen(const vector<vector<int>>& A, const vector<vector<i
         return temp;
     }
 
-    vector<vector<int>> A11(n / 2, vector<int>(n / 2)), A12(n / 2, vector<int>(n / 2)),
-                        A21(n / 2, vector<int>(n / 2)), A22(n / 2, vector<int>(n / 2)),
-                        B11(n / 2, vector<int>(n / 2)), B12(n / 2, vector<int>(n / 2)),
-                        B21(n / 2, vector<int>(n / 2)), B22(n / 2, vector<int>(n / 2)),
-                        M1(n / 2, vector<int>(n / 2)), M2(n / 2, vector<int>(n / 2)),
-                        M3(n / 2, vector<int>(n / 2)), M4(n / 2, vector<int>(n / 2)),
-                        M5(n / 2, vector<int>(n / 2)), M6(n / 2, vector<int>(n / 2)),
-                        M7(n / 2, vector<int>(n / 2)),
-                        temp1(n / 2, vector<int>(n / 2)), temp2(n / 2, vector<int>(n / 2));
+    matrix A_padded = padMatrix(A);
+    matrix B_padded = padMatrix(B);
+    int newSize = A_padded.size();
 
-    dividirMatriz(A, A11, A12, A21, A22);
-    dividirMatriz(B, B11, B12, B21, B22);
+    matrix A11(newSize / 2, vector<int>(newSize / 2)), A12(newSize / 2, vector<int>(newSize / 2)),
+                        A21(newSize / 2, vector<int>(newSize / 2)), A22(newSize / 2, vector<int>(newSize / 2)),
+                        B11(newSize / 2, vector<int>(newSize / 2)), B12(newSize / 2, vector<int>(newSize / 2)),
+                        B21(newSize / 2, vector<int>(newSize / 2)), B22(newSize / 2, vector<int>(newSize / 2)),
+                        M1(newSize / 2, vector<int>(newSize / 2)), M2(newSize / 2, vector<int>(newSize / 2)),
+                        M3(newSize / 2, vector<int>(newSize / 2)), M4(newSize / 2, vector<int>(newSize / 2)),
+                        M5(newSize / 2, vector<int>(newSize / 2)), M6(newSize / 2, vector<int>(newSize / 2)),
+                        M7(newSize / 2, vector<int>(newSize / 2));
 
-    temp1 = sumarMatrices(A11, A22);
-    temp2 = sumarMatrices(B11, B22);
-    M1=strassen(temp1, temp2);
+    dividirMatriz(A_padded, A11, A12, A21, A22);
+    dividirMatriz(B_padded, B11, B12, B21, B22);
 
-    temp1 = sumarMatrices(A21, A22);
-    M2=strassen(temp1, B11);
+    auto temp1 = sumarMatrices(A11, A22);
+    auto temp2 = sumarMatrices(B11, B22);
+    M1 = strassen(temp1, temp2);
 
-    temp1 = restarMatrices(B12, B22);
-    M3=strassen(A11, temp1);
+    M2 = strassen(sumarMatrices(A21, A22), B11);
+    M3 = strassen(A11, restarMatrices(B12, B22));
+    M4 = strassen(A22, restarMatrices(B21, B11));
+    M5 = strassen(sumarMatrices(A11, A12), B22);
+    M6 = strassen(restarMatrices(A21, A11), sumarMatrices(B11, B12));
+    M7 = strassen(restarMatrices(A12, A22), sumarMatrices(B21, B22));
 
-    temp1 = restarMatrices(B21, B11);
-    M4=strassen(A22, temp1);
+    matrix C11 = sumarMatrices(restarMatrices(sumarMatrices(M1, M4), M5), M7);
+    matrix C12 = sumarMatrices(M3, M5);
+    matrix C21 = sumarMatrices(M2, M4);
+    matrix C22 = sumarMatrices(restarMatrices(sumarMatrices(M1, M3), M2), M6);
 
-    temp1 = sumarMatrices(A11, A12);
-    M5=strassen(temp1, B22);
+    matrix C_padded = combinarMatrices(C11, C12, C21, C22);
 
-    temp1 = restarMatrices(A21, A11);
-    temp2 = sumarMatrices(B11, B12);
-    M6=strassen(temp1, temp2);
-
-    temp1 = restarMatrices(A12, A22);
-    temp2 = sumarMatrices(B21, B22);
-    M7=strassen(temp1, temp2);
-
-    vector<vector<int>> C11 = sumarMatrices(restarMatrices(sumarMatrices(M1, M4), M5), M7);
-    vector<vector<int>> C12 = sumarMatrices(M3, M5);
-    vector<vector<int>> C21 = sumarMatrices(M2, M4);
-    vector<vector<int>> C22 = sumarMatrices(restarMatrices(sumarMatrices(M1, M3), M2), M6);
-
-    C = combinarMatrices(C11, C12, C21, C22);
-    return C;
+    return removePadding(C_padded, A.size(), B[0].size());
 }
+
 
 int main() {
-    ifstream infile("Input.txt"); 
-    if (!infile.is_open()) {
-        cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
-        return 1;
-    }
-
-    ofstream outfile("Resultados.txt");  
-    if (!outfile.is_open()) {
-        cerr << "No se pudo abrir el archivo 'Resultados.txt' para escribir." << endl;
-        return 1;
-    }
-
-    int rowsA, colsA, rowsB, colsB;
-
-    infile >> rowsA >> colsA;
-    vector<vector<int>> matrizA(rowsA, vector<int>(colsA));
-
-    for (int i = 0; i < rowsA; ++i) {
-        for (int j = 0; j < colsA; ++j) {
-            infile >> matrizA[i][j];
+    for(int h=0; h<1; h++){
+        ifstream infile("Input.txt"); 
+        if (!infile.is_open()) {
+            cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
+            return 1;
         }
-    }
 
-    infile >> rowsB >> colsB;
-    vector<vector<int>> matrizB(rowsB, vector<int>(colsB));
-
-    // Read matrix B
-    for (int i = 0; i < rowsB; ++i) {
-        for (int j = 0; j < colsB; ++j) {
-            infile >> matrizB[i][j];
+        ofstream outfile("RStrassen.txt");  
+        if (!outfile.is_open()) {
+            cerr << "No se pudo abrir el archivo 'RStrassen.txt' para escribir." << endl;
+            return 1;
         }
-    }
 
-    if (colsA != rowsB || colsA!=colsB || colsA!=rowsA) {
-        cerr << "Las dimensiones de las matrices no son compatibles para la multiplicación." << endl;
-        return 1;
-    }
+        int rowsA, colsA, rowsB, colsB;
 
-    vector<vector<int>> resultado = strassen(matrizA, matrizB);
+        infile >> rowsA >> colsA;
+        matrix matrizA(rowsA, vector<int>(colsA));
 
-    outfile << "Matriz A:" << endl;
-    for (const auto& fila : matrizA) {
-        for (int num : fila) {
-            outfile << num << " ";
+        for (int i = 0; i < rowsA; ++i) {
+            for (int j = 0; j < colsA; ++j) {
+                infile >> matrizA[i][j];
+            }
         }
-        outfile << endl;
-    }
 
-    outfile << endl << "Matriz B:" << endl;
-    for (const auto& fila : matrizB) {
-        for (int num : fila) {
-            outfile << num << " ";
+        infile >> rowsB >> colsB;
+        matrix matrizB(rowsB, vector<int>(colsB));
+
+        for (int i = 0; i < rowsB; ++i) {
+            for (int j = 0; j < colsB; ++j) {
+                infile >> matrizB[i][j];
+            }
         }
-        outfile << endl;
+        
+        auto start = high_resolution_clock::now();
+        matrix resultado = strassen(matrizA, matrizB);
+        auto end = high_resolution_clock::now();
+        
+        std::chrono::duration<double, milli> duracion = end - start;
+
+        std::cout <<duracion.count()<< endl;
+
+        printMatrix(outfile, matrizA, "Matriz A");
+        printMatrix(outfile, matrizB, "Matriz B");
+        printMatrix(outfile, resultado, "Resultado de la multiplicación");
+
+        infile.close();
+        outfile.close();
     }
-
-    outfile << endl << "Resultado de la multiplicación:" << endl;
-    for (const auto& fila : resultado) {
-        for (int num : fila) {
-            outfile << num << " ";
-        }
-        outfile << endl;
-    }
-
-    infile.close();
-    outfile.close();
-
-    cout << "La multiplicación de matrices ha sido escrita en 'Resultados.txt'." << endl;
-
     return 0;
 }
-
