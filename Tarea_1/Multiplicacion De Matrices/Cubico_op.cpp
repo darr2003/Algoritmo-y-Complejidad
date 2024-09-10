@@ -12,6 +12,18 @@ using std::chrono::milliseconds;
 
 using matrix=vector<vector<int>>;
 
+void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixName) {
+    outfile << matrixName << ":" << endl;
+    for (const auto& row : matrix) {
+        for (int num : row) {
+            outfile << num << " ";
+        }
+        outfile << endl;
+    }
+    outfile << endl;
+}
+
+
 matrix TMatrix(const matrix& B) {
     int rows = B.size();
     int cols = B[0].size();
@@ -79,36 +91,16 @@ int main() {
 
 
     auto start = high_resolution_clock::now();
-    matrix resultado = MatrixMult(matrizA, matrizB); // Usar B transpuesta
+    matrix resultado = MatrixMult(matrizA, matrizB);
     auto end = high_resolution_clock::now();
     
     std::chrono::duration<double, milli> duracion = end - start;
 
     std::cout << duracion.count() << endl;
 
-    outfile << "Matriz A:" << endl;
-    for (const auto& fila : matrizA) {
-        for (int num : fila) {
-            outfile << num << " ";
-        }
-        outfile << endl;
-    }
-
-    outfile << endl << "Matriz B (Original):" << endl;
-    for (const auto& fila : matrizB) {
-        for (int num : fila) {
-            outfile << num << " ";
-        }
-        outfile << endl;
-    }
-
-    outfile << endl << "Resultado de la multiplicación:" << endl;
-    for (const auto& fila : resultado) {
-        for (int num : fila) {
-            outfile << num << " ";
-        }
-        outfile << endl;
-    }
+    printMatrix(outfile, matrizA, "Matriz A");
+    printMatrix(outfile, matrizB, "Matriz B");
+    printMatrix(outfile, resultado, "Resultado de la multiplicación");
 
     infile.close();
     outfile.close();
