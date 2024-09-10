@@ -44,60 +44,58 @@ matrix MatrixMult(matrix a, matrix b) {
 }
 
 int main() {
-    for(int h=0; h<1; h++){
-        ifstream infile("Input.txt"); 
-        if (!infile.is_open()) {
-            cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
-            return 1;
+    ifstream infile("Input.txt"); 
+    if (!infile.is_open()) {
+        cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
+        return 1;
+    }
+
+    ofstream outfile("RCubico.txt");  
+    if (!outfile.is_open()) {
+        cerr << "No se pudo abrir el archivo 'RCubico.txt' para escribir." << endl;
+        return 1;
+    }
+
+    int rowsA, colsA, rowsB, colsB;
+
+    infile >> rowsA >> colsA;
+    matrix matrizA(rowsA, vector<int>(colsA));
+
+    for (int i = 0; i < rowsA; ++i) {
+        for (int j = 0; j < colsA; ++j) {
+            infile >> matrizA[i][j];
         }
+    }
 
-        ofstream outfile("RCubico.txt");  
-        if (!outfile.is_open()) {
-            cerr << "No se pudo abrir el archivo 'RCubico.txt' para escribir." << endl;
-            return 1;
+    infile >> rowsB >> colsB;
+    matrix matrizB(rowsB, vector<int>(colsB));
+
+    for (int i = 0; i < rowsB; ++i) {
+        for (int j = 0; j < colsB; ++j) {
+            infile >> matrizB[i][j];
         }
+    }
 
-        int rowsA, colsA, rowsB, colsB;
+    if (colsA != rowsB) {
+        cerr << "Las dimensiones de las matrices no son compatibles para la multiplicación." << endl;
+        return 1;
+    }
 
-        infile >> rowsA >> colsA;
-        matrix matrizA(rowsA, vector<int>(colsA));
+    auto start = high_resolution_clock::now();
+    matrix resultado = MatrixMult(matrizA, matrizB);
+    auto end = high_resolution_clock::now();
+    
+    std::chrono::duration<double, milli> duracion = end - start;
 
-        for (int i = 0; i < rowsA; ++i) {
-            for (int j = 0; j < colsA; ++j) {
-                infile >> matrizA[i][j];
-            }
-        }
-
-        infile >> rowsB >> colsB;
-        matrix matrizB(rowsB, vector<int>(colsB));
-
-        // Read matrix B
-        for (int i = 0; i < rowsB; ++i) {
-            for (int j = 0; j < colsB; ++j) {
-                infile >> matrizB[i][j];
-            }
-        }
-
-        if (colsA != rowsB) {
-            cerr << "Las dimensiones de las matrices no son compatibles para la multiplicación." << endl;
-            return 1;
-        }
-
-        auto start = high_resolution_clock::now();
-        matrix resultado = MatrixMult(matrizA, matrizB);
-        auto end = high_resolution_clock::now();
-        
-        std::chrono::duration<double, milli> duracion = end - start;
-
-        std::cout <<duracion.count()<< endl;
+    std::cout <<duracion.count()<< endl;
 
     printMatrix(outfile, matrizA, "Matriz A");
     printMatrix(outfile, matrizB, "Matriz B");
     printMatrix(outfile, resultado, "Resultado de la multiplicación");
 
-        infile.close();
-        outfile.close();
-    }
+    infile.close();
+    outfile.close();
+    
     return 0;
 }
 

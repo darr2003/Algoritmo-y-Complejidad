@@ -53,7 +53,7 @@ void quickSort(vector<int>& arr, int low, int high) {
 }
 
 int main() {
-    ifstream infile("datasetDesordenado.txt");
+    ifstream infile("dataset.txt");
     ofstream outfile("OrdenadasQuicksort.txt");
 
     if (!infile.is_open()) {

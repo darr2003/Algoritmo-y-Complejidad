@@ -33,8 +33,8 @@ vector<int> BubbleSort(vector<int> &array_elementos) {
 }
 
 int main() {
-    ifstream infile("datasetDesordenado.txt");
-    ofstream outfile("OrdenadasQuicksort.txt");
+    ifstream infile("dataset.txt");
+    ofstream outfile("OrdenadasBubble.txt");
 
     if (!infile.is_open()) {
         cerr << "No se pudo abrir el archivo para leer." << endl;

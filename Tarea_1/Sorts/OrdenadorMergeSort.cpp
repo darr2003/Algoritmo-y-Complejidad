@@ -53,8 +53,8 @@ vector<int> mergeSort(vector<int> &entrada){
 
 
 int main() {
-    ifstream infile("datasetDesordenado.txt");
-    ofstream outfile("OrdenadasQuicksort.txt");
+    ifstream infile("dataset.txt");
+    ofstream outfile("OrdenadasMergesort.txt");
 
     if (!infile.is_open()) {
         cerr << "No se pudo abrir el archivo para leer." << endl;

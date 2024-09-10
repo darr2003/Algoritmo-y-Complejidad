@@ -28,4 +28,4 @@ run: all
 
 # Limpieza de archivos binarios
 clean:
-	rm -f $(TARGETS)
+	rm -f $(TARGETS) OrdenadasBubble.txt OrdenadasQuicksort.txt OrdenadasMergesort.txt OrdenadasImp.txt

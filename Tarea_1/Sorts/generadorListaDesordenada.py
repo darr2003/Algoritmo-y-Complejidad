@@ -1,11 +1,9 @@
-from random import shuffle
+import random
 
-size = 500000
-nums = list(range(1, size+1))
-shuffle(nums)
+size = 100000
+nums = list(range(1, size + 1))
+random.shuffle(nums)
 
-nombre = "datasetDesordenado.txt"
-file = open(nombre, "w")
-for num in nums:
-    file.write(str(num)+ " ")
-file.close()
+file_name = "dataset.txt"
+with open(file_name, "w") as file:
+    file.write(" ".join(map(str, nums)))

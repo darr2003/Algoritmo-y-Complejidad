@@ -13,17 +13,17 @@ using std::chrono::duration;
 using std::chrono::milliseconds;
 
 int main() {
-    ifstream infile("datasetDesordenado.txt");
-    ofstream outfile("OrdenadasBubble.txt");
+    ifstream infile("dataset.txt");
+    ofstream outfile("OrdenadasImp.txt");
     std::chrono::duration<double, milli> duracion;
 
     if (!infile.is_open()) {
-    cerr << "No se pudo abrir el archivo 'datasetDesordenado.txt' para leer." << endl;
+    cerr << "No se pudo abrir el archivo 'dataset.txt' para leer." << endl;
     return 1;
     }
 
     if (!outfile.is_open()) {
-    cerr << "No se pudo abrir el archivo 'OrdenadasBubble.txt' para escribir." << endl;
+    cerr << "No se pudo abrir el archivo 'OrdenadasImp.txt' para escribir." << endl;
     return 1;
     }
 

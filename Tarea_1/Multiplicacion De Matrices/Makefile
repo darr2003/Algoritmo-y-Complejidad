@@ -13,13 +13,15 @@ Strassen: Strassen.cpp
 
 run: all
 	clear
+	python3 Generador\ de\ matrices.py
 	./Cubico
 	./Cubico_op
 	./Strassen
 
-runStrassen: Strassen
-	clear
-	./Strassen
 
 clean:
 	rm -f $(TARGETS)
+	rm -f Input.txt
+	rm RCubico.txt
+	rm RCubicoOp.txt
+	rm RStrassen.txt

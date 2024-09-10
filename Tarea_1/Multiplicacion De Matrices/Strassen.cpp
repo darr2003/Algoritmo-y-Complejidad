@@ -157,53 +157,52 @@ matrix strassen(const matrix& A, const matrix& B) {
 
 
 int main() {
-    for(int h=0; h<1; h++){
-        ifstream infile("Input.txt"); 
-        if (!infile.is_open()) {
-            cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
-            return 1;
-        }
-
-        ofstream outfile("RStrassen.txt");  
-        if (!outfile.is_open()) {
-            cerr << "No se pudo abrir el archivo 'RStrassen.txt' para escribir." << endl;
-            return 1;
-        }
-
-        int rowsA, colsA, rowsB, colsB;
-
-        infile >> rowsA >> colsA;
-        matrix matrizA(rowsA, vector<int>(colsA));
-
-        for (int i = 0; i < rowsA; ++i) {
-            for (int j = 0; j < colsA; ++j) {
-                infile >> matrizA[i][j];
-            }
-        }
-
-        infile >> rowsB >> colsB;
-        matrix matrizB(rowsB, vector<int>(colsB));
-
-        for (int i = 0; i < rowsB; ++i) {
-            for (int j = 0; j < colsB; ++j) {
-                infile >> matrizB[i][j];
-            }
-        }
-        
-        auto start = high_resolution_clock::now();
-        matrix resultado = strassen(matrizA, matrizB);
-        auto end = high_resolution_clock::now();
-        
-        std::chrono::duration<double, milli> duracion = end - start;
-
-        std::cout <<duracion.count()<< endl;
-
-        printMatrix(outfile, matrizA, "Matriz A");
-        printMatrix(outfile, matrizB, "Matriz B");
-        printMatrix(outfile, resultado, "Resultado de la multiplicación");
-
-        infile.close();
-        outfile.close();
+    ifstream infile("Input.txt"); 
+    if (!infile.is_open()) {
+        cerr << "No se pudo abrir el archivo 'Input.txt' para leer." << endl;
+        return 1;
     }
+
+    ofstream outfile("RStrassen.txt");  
+    if (!outfile.is_open()) {
+        cerr << "No se pudo abrir el archivo 'RStrassen.txt' para escribir." << endl;
+        return 1;
+    }
+
+    int rowsA, colsA, rowsB, colsB;
+
+    infile >> rowsA >> colsA;
+    matrix matrizA(rowsA, vector<int>(colsA));
+
+    for (int i = 0; i < rowsA; ++i) {
+        for (int j = 0; j < colsA; ++j) {
+            infile >> matrizA[i][j];
+        }
+    }
+
+    infile >> rowsB >> colsB;
+    matrix matrizB(rowsB, vector<int>(colsB));
+
+    for (int i = 0; i < rowsB; ++i) {
+        for (int j = 0; j < colsB; ++j) {
+            infile >> matrizB[i][j];
+        }
+    }
+    
+    auto start = high_resolution_clock::now();
+    matrix resultado = strassen(matrizA, matrizB);
+    auto end = high_resolution_clock::now();
+    
+    std::chrono::duration<double, milli> duracion = end - start;
+
+    std::cout <<duracion.count()<< endl;
+
+    printMatrix(outfile, matrizA, "Matriz A");
+    printMatrix(outfile, matrizB, "Matriz B");
+    printMatrix(outfile, resultado, "Resultado de la multiplicación");
+
+    infile.close();
+    outfile.close();
+
     return 0;
 }
