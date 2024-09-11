@@ -13,6 +13,12 @@ using std::chrono::duration_cast;
 using std::chrono::duration;
 using std::chrono::milliseconds;
 
+/*
+ * Función para imprimir una matriz en un archivo de salida.
+ * @param outfile: Archivo de salida donde se imprimirá la matriz.
+ * @param matrix: Matriz que se va a imprimir.
+ * @param matrixName: Nombre de la matriz que se imprimirá.
+ */
 void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixName) {
     outfile << matrixName << ":" << endl;
     for (const auto& row : matrix) {
@@ -24,13 +30,14 @@ void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixNa
     outfile << endl;
 }
 
-
+/*
+ * Función para multiplicar dos matrices con metodo tradicional.
+ * @param a: Primera matriz.
+ * @param b: Segunda matriz.
+ * @return: Resultado de la multiplicación de las matrices.
+ */
 matrix MatrixMult(matrix a, matrix b) {
     matrix c(a.size(), vector<int>(b[0].size(), 0));
-    
-    if (a[0].size() != b.size()) {
-        return {};
-    }
 
     for (int i = 0; i < (int)a.size(); i++) {
         for (int j = 0; j < (int)b[0].size(); j++) {

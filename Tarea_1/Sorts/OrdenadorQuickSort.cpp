@@ -12,6 +12,13 @@ using std::chrono::duration_cast;
 using std::chrono::duration;
 using std::chrono::milliseconds;
 
+/*
+ * Función que selecciona una mediana de tres elementos para usar como pivote en el algoritmo de QuickSort.
+ * @param arr: Vector de enteros que se está ordenando.
+ * @param low: Índice inicial del rango de elementos a considerar.
+ * @param high: Índice final del rango de elementos a considerar.
+ * @return: El valor del pivote seleccionado.
+ */
 int medianOfThree(vector<int>& arr, int low, int high) {
     int mid = low + (high - low) / 2;
 
@@ -26,6 +33,13 @@ int medianOfThree(vector<int>& arr, int low, int high) {
     return arr[high];
 }
 
+/*
+ * Función que particiona el vector alrededor de un pivote para el algoritmo de QuickSort.
+ * @param arr: Vector de enteros que se está ordenando.
+ * @param low: Índice inicial del rango de elementos a considerar.
+ * @param high: Índice final del rango de elementos a considerar.
+ * @return: El índice de la posición del pivote después de la partición.
+ */
 int partition(vector<int>& arr, int low, int high) {
     int pivot = medianOfThree(arr, low, high);
   
@@ -41,6 +55,12 @@ int partition(vector<int>& arr, int low, int high) {
     return i + 1;
 }
 
+/*
+ * Función que ordena un vector de enteros usando el algoritmo de QuickSort.
+ * @param arr: Vector de enteros que se desea ordenar.
+ * @param low: Índice inicial del rango de elementos a ordenar.
+ * @param high: Índice final del rango de elementos a ordenar.
+ */
 void quickSort(vector<int>& arr, int low, int high) {
   
     if (low < high) {

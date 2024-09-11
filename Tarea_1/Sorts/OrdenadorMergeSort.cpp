@@ -16,6 +16,12 @@ using std::chrono::milliseconds;
 
 using namespace std;
 
+/*
+ * Función que combina dos sub-vectores ordenados en uno solo de manera ordenada.
+ * @param izq: Sub-vector izquierdo.
+ * @param der: Sub-vector derecho.
+ * @return: Un vector resultante que combina los elementos de 'izq' y 'der' en orden ascendente.
+ */
 vector<int> merge(vector<int> &izq, vector<int> &der){
     vector<int> result;
     auto itIzq = izq.begin();
@@ -29,13 +35,17 @@ vector<int> merge(vector<int> &izq, vector<int> &der){
         }
     }
 
-    // Añadir los elementos restantes de izq o der
     result.insert(result.end(), itIzq, izq.end());
     result.insert(result.end(), itDer, der.end());
 
     return result;
 }
 
+/*
+ * Función recursiva que implementa el algoritmo Merge Sort.
+ * @param entrada: Vector de enteros que se desea ordenar.
+ * @return: El vector ordenado.
+ */
 vector<int> mergeSort(vector<int> &entrada){
     if (entrada.size() <= 1){
         return entrada;

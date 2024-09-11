@@ -12,6 +12,13 @@ using std::chrono::milliseconds;
 
 using matrix=vector<vector<int>>;
 
+
+/*
+ * Función para imprimir una matriz en un archivo de salida.
+ * @param outfile: Archivo de salida.
+ * @param matrix: Matriz a imprimir.
+ * @param matrixName: Nombre de la matriz a imprimir.
+ */
 void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixName) {
     outfile << matrixName << ":" << endl;
     for (const auto& row : matrix) {
@@ -23,7 +30,11 @@ void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixNa
     outfile << endl;
 }
 
-
+/*
+ * Función para transponer una matriz.
+ * @param B: Matriz que se desea transponer.
+ * @return: Matriz transpuesta.
+ */
 matrix TMatrix(const matrix& B) {
     int rows = B.size();
     int cols = B[0].size();
@@ -37,6 +48,12 @@ matrix TMatrix(const matrix& B) {
     return t;
 }
 
+/*
+ * Función para multiplicar dos matrices transponiendo la segunda matriz.
+ * @param a: Primera matriz.
+ * @param b: Segunda matriz.
+ * @return: Resultado de la multiplicación de las matrices.
+ */
 matrix MatrixMult(const matrix& a, const matrix& b) {
     matrix bT = TMatrix(b);
     matrix c(a.size(), vector<int>(bT.size(), 0));

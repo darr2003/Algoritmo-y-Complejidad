@@ -14,6 +14,12 @@ using std::chrono::duration_cast;
 using std::chrono::duration;
 using std::chrono::milliseconds;
 
+/*
+ * Función para imprimir una matriz en un archivo de salida.
+ * @param outfile: Archivo de salida.
+ * @param matrix: Matriz a imprimir.
+ * @param matrixName: Nombre de la matriz a imprimir.
+ */
 void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixName) {
     outfile << matrixName << ":" << endl;
     for (const auto& row : matrix) {
@@ -25,10 +31,21 @@ void printMatrix(ofstream& outfile, const matrix& matrix, const string& matrixNa
     outfile << endl;
 }
 
+/*
+ * Funcion que calcula la siguiente potencia de 2
+ * @param x: Valor que calcula la siguiente potencia de 2
+ * @return: siguiente potencia de 2.
+ */
 int nextPowerOfTwo(int x) {
     return pow(2, ceil(log2(x)));
 }
 
+/*
+ * Función que ajusta una matriz para que sea de tamaño potencia de dos,
+ * rellenando los espacios adicionales con ceros.
+ * @param mat: Matriz original que se desea rellenar.
+ * @return: Matriz ajustada con ceros.
+ */
 matrix padMatrix(const matrix& mat) {
     int n = mat.size();
     int m = mat[0].size();
@@ -43,6 +60,14 @@ matrix padMatrix(const matrix& mat) {
     return padded;
 }
 
+/*
+ * Función que elimina el relleno de una matriz ajustada a potencia de dos,
+ * devolviéndola a su tamaño original.
+ * @param mat: Matriz ajustada.
+ * @param originalRows: Número de filas de la matriz original.
+ * @param originalCols: Número de columnas de la matriz original.
+ * @return: Matriz con el tamaño original.
+ */
 matrix removePadding(const matrix& mat, int originalRows, int originalCols) {
     matrix result(originalRows, vector<int>(originalCols));
     for (int i = 0; i < originalRows; ++i) {
@@ -53,6 +78,12 @@ matrix removePadding(const matrix& mat, int originalRows, int originalCols) {
     return result;
 }
 
+/*
+ * Función que suma dos matrices.
+ * @param A: Primera matriz.
+ * @param B: Segunda matriz.
+ * @return: Matriz resultante de la suma de A y B.
+ */
 matrix sumarMatrices(const matrix& A, const matrix& B) {
     int n = A.size();
     matrix C(n, vector<int>(n));
@@ -64,6 +95,12 @@ matrix sumarMatrices(const matrix& A, const matrix& B) {
     return C;
 }
 
+/*
+ * Función que resta dos matrices.
+ * @param A: Primera matriz.
+ * @param B: Segunda matriz.
+ * @return: Matriz resultante de la resta de A y B.
+ */
 matrix restarMatrices(const matrix& A, const matrix& B) {
     int n = A.size();
     matrix C(n, vector<int>(n));
@@ -75,6 +112,14 @@ matrix restarMatrices(const matrix& A, const matrix& B) {
     return C;
 }
 
+/*
+ * Función que divide una matriz en cuatro submatrices.
+ * @param A: Matriz a dividir.
+ * @param A11: Submatriz superior izquierda.
+ * @param A12: Submatriz superior derecha.
+ * @param A21: Submatriz inferior izquierda.
+ * @param A22: Submatriz inferior derecha.
+ */
 void dividirMatriz(const matrix& A, matrix& A11, matrix& A12, matrix& A21, matrix& A22) {
     int n = A.size();
     int m = n / 2;
@@ -88,6 +133,14 @@ void dividirMatriz(const matrix& A, matrix& A11, matrix& A12, matrix& A21, matri
     }
 }
 
+/*
+ * Función que combina cuatro submatrices en una matriz más grande.
+ * @param A11: Submatriz superior izquierda.
+ * @param A12: Submatriz superior derecha.
+ * @param A21: Submatriz inferior izquierda.
+ * @param A22: Submatriz inferior derecha.
+ * @return: Matriz combinada a partir de las submatrices.
+ */
 matrix combinarMatrices(const matrix& A11, const matrix& A12, const matrix& A21, const matrix& A22) {
     int n = A11.size() * 2;
     matrix C(n, vector<int>(n));
@@ -103,6 +156,12 @@ matrix combinarMatrices(const matrix& A11, const matrix& A12, const matrix& A21,
     return C;
 }
 
+/*
+ * Implementación del algoritmo de Strassen para multiplicación de matrices.
+ * @param A: Primera matriz.
+ * @param B: Segunda matriz.
+ * @return: Matriz resultante de la multiplicación de A y B.
+ */
 matrix strassen(const matrix& A, const matrix& B) {
     int n = A.size();
     if (n == 1) {

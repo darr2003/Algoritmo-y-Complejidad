@@ -12,20 +12,28 @@ using std::chrono::duration_cast;
 using std::chrono::duration;
 using std::chrono::milliseconds;
         
+/*
+ * Función que implementa el algoritmo de ordenamiento Bubble Sort.
+ * @param array_elementos: Vector de enteros que se desea ordenar.
+ * @return: El vector ordenado.
+ */
 vector<int> BubbleSort(vector<int> &array_elementos) {
-    int n = array_elementos.size();
-    bool swapped;
+    int n = array_elementos.size(); // Obtiene el tamaño del vector.
+    bool swapped; // Variable para indicar si se realizó algún intercambio en la pasada actual.
     
+    // Ciclo exterior que controla el número de iteraciones.
     for (int a = 0; a < n - 1; a++) {
         swapped = false;
         
+        // Ciclo interior que compara los elementos.
         for (int b = 0; b < n - 1 - a; b++) {
             if (array_elementos[b] > array_elementos[b + 1]) {
                 swap(array_elementos[b], array_elementos[b + 1]);
-                swapped = true;
+                swapped = true; 
             }
         }
         
+        // Si no hubo intercambios en la pasada actual, el vector ya está ordenado.
         if (!swapped) break;
     }
     
