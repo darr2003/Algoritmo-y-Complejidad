@@ -1,0 +1,77 @@
+\subsection*{Pruebas realizadas}
+
+Para la experimentación actual, implementamos dos tipos principales de pruebas:
+
+\begin{enumerate}
+    \item \textbf{Prueba temporal:}  
+    En esta prueba, nos enfocamos en medir el tiempo que cada método (fuerza bruta y programación dinámica) tarda en resolver una serie de ejercicios generados mediante programas en Python, independientemente del resultado de la función. Los casos evaluados incluyen:  
+    \begin{itemize}
+        \item \textbf{Cadenas de distintos tamaños}
+        \item \textbf{Cadenas completamente iguales}
+        \item \textbf{Una cadena vacía y otra no vacía}  
+        \item \textbf{Cadenas de igual tamaño pero con letras completamente distintas}  
+        \item \textbf{Entradas que solo pueden resolverse mediante transposición}  
+    \end{itemize}
+    Este enfoque permitió comparar directamente los tiempos de ejecución entre ambos métodos en diferentes escenarios.
+
+    \item \textbf{Prueba de validación de costos:}  
+    En esta prueba utilizamos un dataset limitado con entradas seleccionadas y cuales resultados esperados fueron calculados manualmente. Posteriormente, comparamos estos valores con los resultados obtenidos por el programa, asegurándonos de que los costos fueran correctos en todos los casos.
+\end{enumerate}
+
+Estas pruebas nos permitieron analizar la eficiencia en términos de rendimiento.
+
+\subsubsection*{Ejemplos de entradas para pruebas}
+
+A continuación, se presentan ejemplos de entradas utilizadas para evaluar el rendimiento y la precisión del algoritmo, clasificados según las características de las cadenas:
+
+\begin{enumerate}
+    \item \textbf{Cadenas de distintos tamaños:}
+    \begin{itemize}
+        \item Entrada:
+        \begin{verbatim}
+        "st"
+        "abcdef"
+        \end{verbatim}
+        \item Explicación: Una cadena es significativamente más grande que la otra, lo que genera múltiples inserciones.
+    \end{itemize}
+
+    \item \textbf{Cadenas completamente iguales:}
+    \begin{itemize}
+        \item Entrada:
+        \begin{verbatim}
+        "algoritmo"
+        "algoritmo"
+        \end{verbatim}
+        \item Explicación: Ambas cadenas son idénticas, lo que debería resultar en un costo de transformación igual a cero.
+    \end{itemize}
+
+    \item \textbf{Una cadena vacía y otra no vacía:}
+    \begin{itemize}
+        \item Entrada:
+        \begin{verbatim}
+        ""
+        "transformar"
+        \end{verbatim}
+        \item Explicación: Una de las cadenas está vacía, lo que implica que todas las operaciones serán inserciones.
+    \end{itemize}
+
+    \item \textbf{Cadenas de igual tamaño pero con letras completamente distintas:}
+    \begin{itemize}
+        \item Entrada:
+        \begin{verbatim}
+        "abcde"
+        "vwxyz"
+        \end{verbatim}
+        \item Explicación: Ambas cadenas tienen el mismo tamaño, pero no tienen caracteres en común, por lo que el resultado implicará únicamente sustituciones.
+    \end{itemize}
+
+    \item \textbf{Entradas que solo pueden resolverse mediante transposición:}
+    \begin{itemize}
+        \item Entrada:
+        \begin{verbatim}
+        "ab"
+        "ba"
+        \end{verbatim}
+        \item Explicación: Las cadenas son iguales en contenido pero tienen los caracteres intercambiados, lo que hace necesario el uso de la operación de transposición.
+    \end{itemize}
+\end{enumerate}

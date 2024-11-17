@@ -1,0 +1,9 @@
+La implementación presentada resuelve el problema de transformación de cadenas utilizando dos enfoques distintos: fuerza bruta y programación dinámica. Además, se incluye un script en Bash para automatizar la ejecución de los casos de prueba almacenados en una estructura de carpetas.\\
+
+El archivo `BruteForce.cpp` implementa un enfoque de fuerza bruta mediante recursión, explorando todas las combinaciones posibles de operaciones (sustitución, inserción, eliminación y transposición) para transformar una cadena en otra. Determina el costo mínimo al evaluar cada opción y selecciona la que genera el menor costo acumulado.\\
+
+El archivo `Dinamic.cpp` implementa un enfoque basado en programación dinámica, que es considerablemente más eficiente que la fuerza bruta. Este método utiliza una matriz para almacenar los costos intermedios de transformar subcadenas, eliminando cálculos redundantes. La matriz se llena iterativamente, evaluando todas las operaciones posibles y seleccionando la que minimiza el costo acumulado. Este enfoque tiene una complejidad temporal \(O(m \times n)\), donde \(m\) y \(n\) son las longitudes de las cadenas.\\
+
+El enfoque de fuerza bruta, aunque sencillo, tiene una complejidad exponencial y un uso constante de memoria, lo que lo hace impráctico para cadenas largas. En cambio, la programación dinámica es significativamente más eficiente, con complejidad temporal \(O(m \times n)\) y uso de memoria proporcional al tamaño de las cadenas, siendo más adecuada para aplicaciones reales. No obstante, su implementación es más compleja debido a la necesidad de gestionar y llenar una matriz.\\
+
+El script `test.sh` automatiza la ejecución masiva de pruebas iterando sobre subcarpetas del directorio `testcases/`, donde cada archivo `test.txt` contiene dos cadenas de prueba. Ejecuta el programa `main` con estos datos como entrada estándar y muestra los resultados, permitiendo comparar resultados o medir tiempos eficientemente.

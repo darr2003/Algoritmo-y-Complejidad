@@ -1,0 +1,43 @@
+Generador de Casos de Prueba
+
+Este documento contiene los pasos necesarios para configurar y utilizar un generador de pruebas automatizado 
+para programas que procesan cadenas de texto con longitudes variables (entre 5 y 9 caracteres).
+
+=== CONSIDERACIONES DEL TESTER ===
+
+1. Modificación del script del generador de pruebas:
+   - Dentro del archivo de pruebas `test.sh`, se encuentra la siguiente línea:
+     py.exe Generador<nombre>.py <<< "$a"
+   - Si necesitas cambiar el nombre del archivo Python, reemplázalo en la línea, en la parte de <nombre> con, 
+     el nuevo nombre del script que deseas usar.
+
+2. Compilación del programa principal:
+   - El programa principal que deseas probar debe estar compilado con el nombre `main`.
+   - Para compilarlo, utiliza el siguiente comando:
+     g++ <nombre del archivo>.cpp -Wall -o main
+   - Asegúrate de que el programa principal pueda procesar correctamente entradas desde la consola.
+
+3. Modificación del script `test.sh` (si es necesario):
+   - Si tu programa no utiliza la entrada por consola, será necesario ajustar el archivo `test.sh` para adaptarlo al funcionamiento esperado. Este cambio no debería ser complicado.
+
+4. Ejecución del tester:
+   - Una vez configurados los generadores y compilado el programa principal, ejecuta el siguiente comando desde la misma carpeta donde se encuentran los archivos necesarios:
+     ./test.sh
+   - Esto generará pruebas en subcarpetas, que contendrán cadenas de texto con longitudes variables entre 5 y 9 caracteres durante toda la ejecución, y
+     ejecutara el main que se encuentre en la carpeta.
+
+=== ESTRUCTURA ESPERADA ===
+
+La carpeta principal debe contener los siguientes archivos:
+- test.sh: Script para automatizar la generación y ejecución de pruebas.
+- Generadores, programas en python que permiten generar cadenas aleatorias de strings
+- main: Archivo ejecutable del programa principal (compilado).
+- Casos de prueba base, estos casos de prueba son reales casos de prueba, utilizados
+  para la evaluacion del correcto funcionamiento de los codigos
+
+=== NOTAS ===
+
+- Asegúrate de tener instaladas las herramientas necesarias:
+  - Python, para ejecutar el generador de pruebas.
+  - Un compilador compatible con C++ (como g++), para compilar el programa principal.
+- Es importante ejecutar el tester desde la carpeta donde se encuentran los generadores y el ejecutable `main`.

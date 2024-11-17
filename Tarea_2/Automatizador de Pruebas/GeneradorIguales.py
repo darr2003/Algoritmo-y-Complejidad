@@ -1,0 +1,28 @@
+import os
+import random
+
+testcases_dir = "./testcases"
+num_testcases = 3  
+max_length = (int)(input(""))
+
+os.makedirs(testcases_dir, exist_ok=True)
+
+def generate_string(length):
+    return ''.join(random.choices('abcdefghijklmnopqrstuvwxyz', k=length))
+
+def compute_output(s1, s2):    
+    return abs(len(s1) - len(s2))  
+
+for i in range(1, num_testcases + 1):
+    folder = os.path.join(testcases_dir, f"test{i}")
+    os.makedirs(folder, exist_ok=True)
+
+    s = generate_string(max_length)
+    s1 = s
+    s2 = s
+    #s1 = generate_string(random.randint(1, max_length))
+    #s2 = generate_string(random.randint(1, max_length))
+    with open(os.path.join(folder, "test.txt"), "w") as f_in:
+        f_in.write(f"{s1}\n{s2}\n")
+
+print(f"Se generaron {num_testcases} casos de prueba en {testcases_dir}")
