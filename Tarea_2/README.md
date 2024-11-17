@@ -39,5 +39,5 @@ Este archivo corresponde a la **Tarea 3** y utiliza un enfoque de programación 
 Ambos códigos están escritos en C++ y se pueden compilar usando cualquier compilador compatible, como `g++`.  
 Ejemplo de compilación:
 ```bash
-g++ BruteForce.cpp -o BruteForce
-g++ Dinamic.cpp -o Dinamic
+g++ BruteForce.cpp -o main
+g++ Dinamic.cpp -o main
